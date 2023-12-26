@@ -1,17 +1,13 @@
 pub fn binary_search(container: [usize; 20], search: usize) -> bool {
     let container_len: usize = container.len();
 
-    let mut container_clone: [usize; 20] = container.clone();
-
-    container_clone.sort();
-
     let mut low: usize = 0;
     let mut high: usize = container_len;
     let mut result: Option<usize> = None;
 
     while low < high {
         let mid: usize = low + ((high - low) / 2);
-        let value: usize = container_clone[mid];
+        let value: usize = container[mid];
         if value == search {
             println!("value: {:?}", value);
             result = Some(value);
