@@ -3,33 +3,24 @@ pub fn binary_search(container: [usize; 20], search: usize) -> bool {
 
     let mut container_clone: [usize; 20] = container.clone();
 
-    // container_clone.sort();
-
-    println!("sorted container: {:?}", container_clone);
+    container_clone.sort();
 
     let mut low: usize = 0;
     let mut high: usize = container_len;
     let mut result: Option<usize> = None;
 
-    //
-
     while low < high {
         let mid: usize = low + ((high - low) / 2);
-        let value: usize = container[mid];
-        // println!("high: {:?}", high);
-        // println!("mid: {:?}", mid);
+        let value: usize = container_clone[mid];
         if value == search {
             println!("value: {:?}", value);
             result = Some(value);
             break;
         } else if value <= search {
             low = mid + 1;
-        } else if value > search {
-            high = mid;
         } else {
-            break;
+            high = mid;
         }
-        // println!("low: {}, high: {}", low, high);
     }
     result.is_some()
 }
