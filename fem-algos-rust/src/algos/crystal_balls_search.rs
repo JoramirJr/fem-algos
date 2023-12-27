@@ -1,35 +1,34 @@
 use num::integer::Roots;
 
-pub fn crystal_balls_search(container: [usize; 20], needle: usize) -> Option<usize> {
-    let leng_sqr = container.len();
-    leng_sqr.sqrt();
-    let mut sqr_loop_idx = leng_sqr;
+pub fn crystal_balls_search(container: &Vec<bool>) -> Option<usize> {
+    let len = container.len();
+    let len_sqrt = len.sqrt();
+    let mut sqrt_loop_idx = len_sqrt;
 
     let breakarea_search = loop {
-        if sqr_loop_idx < leng_sqr {
-            sqr_loop_idx += leng_sqr;
-            if container[sqr_loop_idx] == needle {
-                break Some(container[sqr_loop_idx]);
+        if sqrt_loop_idx < len {
+            sqrt_loop_idx += len_sqrt;
+            if container[sqrt_loop_idx] {
+                break Some(sqrt_loop_idx);
             }
         } else {
-            sqr_loop_idx += leng_sqr;
-            break None;
+            sqrt_loop_idx += leng_sqr;
         }
     };
 
     if breakarea_search.is_some() {
-        return Some(container[sqr_loop_idx]);
+        return Some(sqrt_loop_idx);
     }
 
-    sqr_loop_idx -= leng_sqr;
-    let mut linear_sqr_idx = sqr_loop_idx;
+    sqrt_loop_idx -= leng_sqr;
+    let mut linear_sqr_idx = sqrt_loop_idx;
 
     loop {
-        if linear_sqr_idx > sqr_loop_idx {
+        if linear_sqr_idx <= sqrt_loop_idx {
             break None;
         } else {
-            if container[linear_sqr_idx] == needle {
-                break Some(container[linear_sqr_idx]);
+            if container[linear_sqr_idx] {
+                break Some(linear_sqr_idx);
             }
         }
         linear_sqr_idx += 1;
@@ -39,27 +38,31 @@ pub fn crystal_balls_search(container: [usize; 20], needle: usize) -> Option<usi
 #[cfg(test)]
 mod test {
     use super::crystal_balls_search;
-    use rand::{rngs::ThreadRng, Rng};
+    use rand::Rng;
     use std::iter::repeat;
 
     #[test]
     fn basics() {
-        let mut rng: ThreadRng = rand::thread_rng();
-        let idx = rng.gen_range(0..10_000);
+        let idx_rand: usize = rand::thread_rng().gen_range(0..10_000);
 
         let thousand_falses = repeat(false).take(1000);
 
-        let mut data = Vec::from_iter(thousand_falses);
+        let mut vec = Vec::from_iter(thousand_falses.clone());
 
-        for i in idx {
-            data[i] = true;
+        let mut for_idx = 0;
+
+        for _ in vec.clone() {
+            if for_idx > idx_rand {
+                vec[for_idx] = true;
+            }
+            for_idx += 1;
         }
 
-        // for (let i = idx; i < 10000; ++i) {
-        //     data[i] = true;
-        // }
+        assert_eq!(crystal_balls_search(&vec), Some(idx_rand));
 
-        // expect(two_crystal_balls(data)).toEqual(idx);
-        // expect(two_crystal_balls(new Array(821).fill(false))).toEqual(-1);
+        assert_eq!(
+            crystal_balls_search(&Vec::from_iter(thousand_falses.clone())),
+            None
+        );
     }
 }
