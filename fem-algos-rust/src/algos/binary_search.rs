@@ -21,22 +21,22 @@ pub fn binary_search(container: [usize; 20], search: usize) -> bool {
     result.is_some()
 }
 
-// #[cfg(test)]
-// mod test {
-//     use super::binary_search;
+#[cfg(test)]
+mod test {
+    use super::binary_search;
 
-//     #[test]
-//     fn basics() {
-//         let container: [usize; 20] = [
-//             77, 58, 95, 29, 98, 7, 40, 8, 66, 14, 11, 21, 18, 38, 20, 99, 25, 52, 87, 1,
-//         ];
-//         assert_eq!(binary_search(container, 77), true);
-//         assert_eq!(binary_search(container, 98), true);
-//         assert_eq!(binary_search(container, 11), true);
-//         assert_eq!(binary_search(container, 7), true);
-//         assert_eq!(binary_search(container, 14), true);
-//         assert_eq!(binary_search(container, 1400), false);
-//         assert_eq!(binary_search(container, 57), false);
-//         assert_eq!(binary_search(container, 0), false);
-//     }
-// }
+    #[test]
+    fn test_binary_search() {
+        let container: [usize; 20] = [
+            77, 58, 95, 29, 98, 7, 40, 8, 66, 14, 11, 21, 18, 38, 20, 99, 25, 52, 87, 1,
+        ];
+        assert_eq!(binary_search(container, 77), true);
+        assert_eq!(binary_search(container, 98), true);
+        assert_eq!(binary_search(container, 11), true);
+        assert_eq!(binary_search(container, 7), true);
+        assert_eq!(binary_search(container, 14), true);
+        assert_eq!(binary_search(container, 1400), false);
+        assert_eq!(binary_search(container, 57), false);
+        assert_eq!(binary_search(container, 0), false);
+    }
+}

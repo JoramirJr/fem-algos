@@ -41,7 +41,7 @@ mod test {
     use std::iter::repeat;
 
     #[test]
-    fn basics() {
+    fn test_crystal_balls_search() {
         let idx_rand: usize = rand::thread_rng().gen_range(0..1_000);
 
         let thousand_falses = repeat(false).take(1_000);
