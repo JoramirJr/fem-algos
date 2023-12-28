@@ -7,31 +7,30 @@ pub fn crystal_balls_search(container: &Vec<bool>) -> Option<usize> {
 
     let breakarea_search = loop {
         if sqrt_loop_idx < len {
-            sqrt_loop_idx += len_sqrt;
             if container[sqrt_loop_idx] {
                 break Some(sqrt_loop_idx);
             }
+            sqrt_loop_idx += len_sqrt;
         } else {
-            sqrt_loop_idx += leng_sqr;
+            break None;
         }
     };
 
-    if breakarea_search.is_some() {
-        return Some(sqrt_loop_idx);
+    if breakarea_search.is_none() {
+        return None;
     }
 
-    sqrt_loop_idx -= leng_sqr;
-    let mut linear_sqr_idx = sqrt_loop_idx;
+    let mut linear_sqrt_idx = sqrt_loop_idx - len_sqrt;
 
     loop {
-        if linear_sqr_idx <= sqrt_loop_idx {
-            break None;
-        } else {
-            if container[linear_sqr_idx] {
-                break Some(linear_sqr_idx);
+        if linear_sqrt_idx <= sqrt_loop_idx {
+            if container[linear_sqrt_idx] {
+                break Some(linear_sqrt_idx);
             }
+            linear_sqrt_idx += 1;
+        } else {
+            break None;
         }
-        linear_sqr_idx += 1;
     }
 }
 
@@ -43,16 +42,16 @@ mod test {
 
     #[test]
     fn basics() {
-        let idx_rand: usize = rand::thread_rng().gen_range(0..10_000);
+        let idx_rand: usize = rand::thread_rng().gen_range(0..1_000);
 
-        let thousand_falses = repeat(false).take(1000);
+        let thousand_falses = repeat(false).take(1_000);
 
         let mut vec = Vec::from_iter(thousand_falses.clone());
 
         let mut for_idx = 0;
 
         for _ in vec.clone() {
-            if for_idx > idx_rand {
+            if for_idx >= idx_rand {
                 vec[for_idx] = true;
             }
             for_idx += 1;
