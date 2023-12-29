@@ -1,25 +1,26 @@
 pub fn bubble_sort(mut container: [usize; 7], mut idx: usize) -> [usize; 7] {
-    if idx >= container.len() {
+    let container_len = container.len();
+    let mut loop_idx = 0;
+    if idx >= container_len - 1 {
         return container;
     }
-    // if idx < container.len() - idx {
-    for (local_idx, n) in container.iter().enumerate() {
-        if local_idx < container.len() - idx {
-            let n_copy = n.clone();
-            match n_copy > container[local_idx + 1] {
+
+    loop {
+        if loop_idx < container_len - idx && loop_idx + 1 < container_len {
+            match container[loop_idx] > container[loop_idx + 1] {
                 true => {
-                    container[local_idx] = container[local_idx + 1];
-                    container[local_idx + 1] = n_copy;
-                    return container;
+                    let tmp = container[loop_idx];
+                    container[loop_idx] = container[loop_idx + 1];
+                    container[loop_idx + 1] = tmp
                 }
                 false => {}
             }
+        } else {
+            break;
         }
+        loop_idx += 1;
     }
-    // }
     idx += 1;
-    println!("Container at index {}: {:?}", idx, container);
-
     return bubble_sort(container, idx);
 }
 
